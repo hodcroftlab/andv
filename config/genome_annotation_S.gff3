@@ -1,7 +1,11 @@
 ##gff-version 3
 #!gff-spec-version 1.21
 #!processor NCBI annotwriter
-##sequence-region NC_005302.1 1 1672
-##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3052518
-NC_005302.1	RefSeq	region	1	1672	.	+	.	ID=NC_005302.1:1..1672;Dbxref=taxon:3052518;Name=S;gbkey=Src;genome=genomic;mol_type=genomic RNA;old-name=Crimean-Congo hemorrhagic fever virus;segment=S;strain=10200
-NC_005302.1	RefSeq	gene	56	1504	.	+	.	Name=NP;gene=NP;ID=gene-CCFHVsSgp1;Dbxref=GeneID:2943076;gbkey=Gene;gene_biotype=protein_coding;product=nucleoprotein;protein_id=NP_950237.1
+##sequence-region NC_003466.1 1 1871
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1980456
+NC_003466.1	RefSeq	region	1	1871	.	+	.	ID=NC_003466.1:1..1871;Dbxref=taxon:1980456;Name=S;gbkey=Src;genome=genomic;mol_type=viral cRNA;old-name=Andes virus;segment=S;strain=Chile-9717869
+NC_003466.1	RefSeq	gene	43	1329	.	+	.	ID=gene-ANDVsSgp1;Dbxref=GeneID:991232;Name=ANDVsSgp1;gbkey=Gene;gene_biotype=protein_coding;locus_tag=ANDVsSgp1
+NC_003466.1	RefSeq	CDS	43	1329	.	+	0	ID=cds-NP_604471.1;Parent=gene-ANDVsSgp1;Dbxref=GenBank:NP_604471.1,GeneID:991232;Name=NP_604471.1;gbkey=CDS;locus_tag=ANDVsSgp1;product=nucleocapsid protein;protein_id=NP_604471.1
+NC_003466.1	RefSeq	gene	122	313	.	+	.	ID=gene-ANDVsSgp2;Dbxref=GeneID:11293630;Name=ANDVsSgp2;gbkey=Gene;gene_biotype=protein_coding;locus_tag=ANDVsSgp2
+NC_003466.1	RefSeq	CDS	122	313	.	+	0	ID=cds-YP_004928151.1;Parent=gene-ANDVsSgp2;Dbxref=GenBank:YP_004928151.1,GeneID:11293630;Name=YP_004928151.1;gbkey=CDS;locus_tag=ANDVsSgp2;product=putative nonstructural protein;protein_id=YP_004928151.1
+

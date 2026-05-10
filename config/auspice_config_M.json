@@ -1,11 +1,21 @@
 {
-  "title": "CCHF Virus",
+  "title": "Andes Hantavirus, M Segment",
   "maintainers": [
     {
-      "name": "Emma Hodcroft"
+      "name": "Emma Hodcroft",
+      "url": "https://eve-lab.org/people/emma-hodcroft/"
     },
     {
-      "name": "and Nextstrain/EVE/Neherlab Team"
+      "name": "EVE Group: Swiss TPH, University of Basel",
+      "url": "https://eve-lab.org/"
+    },
+   {
+      "name": "Neherlab: Biozentrum, University of Basel",
+      "url": "https://neherlab.org/"
+    },
+   {
+      "name": "Pathoplexus Team",
+      "url": "https://pathoplexus.org/"
     }
   ],
   "build_url": "https://github.com/neherlab/CCHFV",

@@ -39,3 +39,12 @@ environment*
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# backups of old things #
+######################
+olderbuilds/
+config/colors_orig.tsv
+
+# Claude related #
+###################
+.claude/

@@ -1,9 +1,9 @@
 ##gff-version 3
 #!gff-spec-version 1.21
 #!processor NCBI annotwriter
-##sequence-region NC_005300.2 1 5366
-##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3052518
-NC_005300.2	RefSeq	region	1	5366	.	+	.	ID=NC_005300.2:1..5366;Dbxref=taxon:3052518;Name=M;country=Nigeria: Sokoto;gbkey=Src;genome=genomic;mol_type=genomic RNA;nat-host=Hyalomma excavatum;note=from YARU%2C New Haven%2C Conn. SMB passed 13 time in suckling mouse brain followed by 2 passes in CDC Vero E6 cells;old-name=Crimean-Congo hemorrhagic fever virus;segment=M;strain=IbAr10200
-NC_005300.2	RefSeq	primer_binding_site	1	18	.	+	.	ID=id-NC_005300.2:1..18;gbkey=primer_bind
-NC_005300.2	RefSeq	gene	93	5147	.	+	.	Name=GPC;gene=GPC;ID=gene-CCFHV_sMgp1;Dbxref=GeneID:2943074;gbkey=Gene;gene_biotype=protein_coding;product=glycoprotein precursor;protein_id=NP_950235.1
-NC_005300.2	RefSeq	primer_binding_site	5349	5366	.	-	.	ID=id-NC_005300.2:5349..5366;gbkey=primer_bind
+##sequence-region NC_003467.2 1 3671
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1980456
+NC_003467.2	RefSeq	region	1	3671	.	+	.	ID=NC_003467.2:1..3671;Dbxref=taxon:1980456;Name=M;gbkey=Src;genome=genomic;mol_type=genomic RNA;old-name=Andes virus;segment=M;strain=Chile-9717869
+NC_003467.2	RefSeq	gene	52	3468	.	+	.	ID=gene-ANDVsMgp1;Dbxref=GeneID:991233;Name=ANDVsMgp1;gbkey=Gene;gene_biotype=protein_coding;locus_tag=ANDVsMgp1
+NC_003467.2	RefSeq	CDS	52	3468	.	+	0	ID=cds-NP_604472.1;Parent=gene-ANDVsMgp1;Dbxref=GenBank:NP_604472.1,GeneID:991233;Name=NP_604472.1;gbkey=CDS;locus_tag=ANDVsMgp1;product=G1 and G2 surface glycoprotein precursor;protein_id=NP_604472.1
+

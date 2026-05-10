@@ -1,24 +1,11 @@
-country	russia	#511EA8
-country	kosovo	#4928B4
-country	uzbekistan	#4334BF
-country	south africa	#3F50CC
-country	pakistan	#416CCE
-country	turkey	#4379CD
-country	india	#4784C7
-country	united arab emirates	#4B8FC1
-country	china	#5098B9
-country	nigeria	#5CA7A4
-country	afghanistan	#6BB18E
-country	iran	#7CB878
-country	senegal	#86BB6E
-country	uganda	#A4BE56
-country	democratic republic of the congo	#B9BC4A
-country	ghana	#CCB742
-country	kazakhstan	#DAAC3D
-country	namibia	#E39B39
-country	oman	#E68F36
-country	spain	#E67431
-country	tajikistan	#E1512A
-country	greece	#DC2F24
+country	peru	#3E58CF
+country	chile	#4B8EC1
+country	argentina	#65AE96
+country	bolivia	#8CBB69
+country	paraguay	#B8BC4A
+country	uruguay	#DCAB3C
+country	brazil	#E67932
+country	switzerland	#DC2F24
+region	south america	#3F50CC
+region	europe	#E1512A
 clade_membership	undefined	#DC2F24
-

@@ -1,9 +1,15 @@
 SEGMENTS = ["M", "L", "S"]
 
+external_metadata = "data/external_metadata.tsv"
+external_fastas = {
+    "S": "data/external_fasta_S.fasta",
+    "M": "data/external_fasta_M.fasta",
+    "L": "data/external_fasta_L.fasta",
+}
 
 rule all:
     input:
-        expand("auspice/CCHF_{Segment}_treeknit.json", Segment=SEGMENTS),
+        expand("auspice/andv_{Segment}.json", Segment=SEGMENTS),
 
 
 dropped_strains = ("config/dropped_strains.txt",)
@@ -11,7 +17,7 @@ reference = ("config/outgroup_{Segment}.gb",)
 colors = ("config/colors.tsv",)
 lat_longs = ("config/lat_longs.tsv",)
 auspice_config = "config/auspice_config.json"
-TAXON_ID = 3052518
+TAXON_ID = 1980456
 
 if os.uname().sysname == "Darwin":
     # Don't use conda-forge unzip on macOS
@@ -55,36 +61,72 @@ rule format_ncbi_dataset_report:
         """
         dataformat tsv virus-genome \
             --package {input.dataset_package} \
-            > {output.ncbi_dataset_tsv}
+            > {output.ncbi_dataset_tsv} 
         """
 
-
-rule filter_rawdata:
+checkpoint filter_rawdata:
     input:
         sequences="data/sequences.fasta",
         ncbi_dataset_tsv="data/metadata_post_extract.tsv",
     output:
-        sequences=expand("data/sequences_{Segment}.fasta", Segment=SEGMENTS),
-        metadata=expand("data/metadata_{Segment}.tsv", Segment=SEGMENTS),
+        sequences=expand("data/sequences_insdc_{Segment}.fasta", Segment=SEGMENTS),
+        metadata=expand("data/metadata_insdc_{Segment}.tsv", Segment=SEGMENTS),
     shell:
         """
         python scripts/filter_rawdata.py \
             --sequences {input.sequences} \
-            --metadata {input.ncbi_dataset_tsv}
+            --metadata {input.ncbi_dataset_tsv} \
+            --exclude-list "config/rawdataexclude.txt" \
+            --no-group true --allow-missing-date
         """
 
+rule add_external_sequences:
+    input:
+        ncbi_metadata="data/metadata_insdc_{Segment}.tsv",
+        ncbi_fasta="data/sequences_insdc_{Segment}.fasta",
+        external_metadata=lambda wildcards: external_metadata if external_metadata else [],
+        external_fasta=lambda wildcards: external_fastas[wildcards.Segment] if external_fastas[wildcards.Segment] else [],
+    output:
+        metadata="data/metadata_{Segment}.tsv",
+        fasta="data/sequences_{Segment}.fasta",
+    run:
+        import shutil
+        import pandas as pd
+        # Concatenate metadata
+        ncbi_meta = pd.read_csv(input.ncbi_metadata, sep="\t")
+        if input.external_metadata:
+            ext_meta = pd.read_csv(input.external_metadata, sep="\t")
+            # Copy external metadata for each sequence in external fasta
+            from Bio import SeqIO
+            ext_fasta_records = list(SeqIO.parse(input.external_fasta, "fasta")) if input.external_fasta else []
+            ext_meta_rows = []
+            for record in ext_fasta_records:
+                row = ext_meta.iloc[0].copy()
+            #    row["accession"] = record.id
+                ext_meta_rows.append(row)
+            ext_meta_expanded = pd.DataFrame(ext_meta_rows)
+            combined_meta = pd.concat([ncbi_meta, ext_meta_expanded], ignore_index=True)
+        else:
+            combined_meta = ncbi_meta
+        combined_meta.to_csv(output.metadata, sep="\t", index=False)
+        # Concatenate fasta
+        with open(output.fasta, "wb") as out_f:
+            with open(input.ncbi_fasta, "rb") as in1:
+                shutil.copyfileobj(in1, out_f)
+            if input.external_fasta:
+                with open(input.external_fasta, "rb") as in2:
+                    out_f.write(b"\n")
+                    shutil.copyfileobj(in2, out_f)
 
 rule index_sequences:
     message:
         """
-        Creating an index of sequence composition for filtering. 
-        As we link segments and only use samples where we have data 
-        from all segemnts we only need to do this for segment M. 
+        Creating an index of sequence composition for filtering.
         """
     input:
-        sequences="data/sequences_M.fasta",
+        sequences="data/sequences_{Segment}.fasta",
     output:
-        sequence_index="results/sequence_index.tsv",
+        sequence_index="results/sequence_index_{Segment}.tsv",
     shell:
         """
         augur index \
@@ -102,18 +144,19 @@ rule filter:
           - excluding strains in {input.exclude}
         """
     input:
-        sequences="data/sequences_M.fasta",
-        sequence_index="results/sequence_index.tsv",
-        metadata="data/metadata_M.tsv",
+        sequences="data/sequences_{Segment}.fasta",
+        sequence_index="results/sequence_index_{Segment}.tsv",
+        metadata="data/metadata_{Segment}.tsv",
         exclude=dropped_strains,
     output:
-        filtered_metadata="results/initial_filtered_metadata.tsv",
+        filtered_metadata="results/initial_filtered_metadata_{Segment}.tsv",
     params:
         group_by="country year",
         sequences_per_group=20,
-        id_column="group_id",
+        id_column="unique_id",
         min_date=1900,
-        query="nr_segments == 'all'",
+        #query="min_length_pass == 'True'", 
+        #query="nr_segments == 'all'",
     shell:
         """
         augur filter \
@@ -122,13 +165,13 @@ rule filter:
             --metadata {input.metadata} \
             --exclude {input.exclude} \
             --output-metadata {output.filtered_metadata} \
-            --group-by {params.group_by} \
-            --sequences-per-group {params.sequences_per_group} \
-            --metadata-id-columns {params.id_column} \
-            --min-date {params.min_date} \
-            --query {params.query:q}
+            --metadata-id-columns {params.id_column} 
         
         """
+        #             --group-by {params.group_by} \
+        #    --sequences-per-group {params.sequences_per_group} \
+        #          --min-date {params.min_date} 
+        #            --query {params.query:q}
 
 
 rule extract_selected_groups:
@@ -139,11 +182,11 @@ rule extract_selected_groups:
     input:
         metadata=rules.filter.output.filtered_metadata,
     output:
-        filtered_groups_list="results/filtered_groups.tsv",
-        filtered_groups="results/filtered_groups.txt",
+        filtered_groups_list="results/filtered_groups_{Segment}.tsv",
+        filtered_groups="results/filtered_groups_{Segment}.txt",
     shell:
         """
-        tsv-select -H -f group_id {input.metadata} > {output.filtered_groups_list}
+        tsv-select -H -f unique_id {input.metadata} > {output.filtered_groups_list}
         cp {output.filtered_groups_list} {output.filtered_groups}
         """
 
@@ -222,7 +265,7 @@ rule refine:
         coalescent="opt",
         date_inference="marginal",
         clock_filter_iqd=4,
-        id_column="group_id",
+        id_column="unique_id",
         root="mid_point",
     shell:
         """
@@ -260,7 +303,7 @@ rule ancestral:
     message:
         "Reconstructing ancestral sequences and mutations"
     input:
-        tree="results/tree_{Segment}_resolved.nwk",
+        tree="results/tree_{Segment}.nwk",
         alignment=rules.align.output,
         reference=reference,
     output:
@@ -282,7 +325,7 @@ rule translate:
     message:
         "Translating amino acid sequences"
     input:
-        tree="results/tree_{Segment}_resolved.nwk",
+        tree="results/tree_{Segment}.nwk",
         node_data=rules.ancestral.output.node_data,
         reference=reference,
     output:
@@ -315,7 +358,7 @@ rule traits:
     message:
         "Inferring ancestral traits for {params.columns!s}"
     input:
-        tree="results/tree_{Segment}_resolved.nwk",
+        tree="results/tree_{Segment}.nwk",
         metadata="data/metadata_{Segment}.tsv",
     output:
         node_data="results/traits_{Segment}.json",
@@ -338,27 +381,27 @@ rule export:
     message:
         "Exporting data files for for auspice"
     input:
-        tree="results/tree_{Segment}_resolved.nwk",
+        tree="results/tree_{Segment}.nwk",
         metadata="data/metadata_{Segment}.tsv",
         clades=rules.clades.output.node_data,
         branch_lengths=rules.refine.output.node_data,
-        traits=rules.traits.output.node_data,
+        #traits=rules.traits.output.node_data,
         nt_muts=rules.ancestral.output.node_data,
         aa_muts=rules.translate.output.node_data,
         colors=colors,
         lat_longs=lat_longs,
-        auspice_config=auspice_config,
+        auspice_config="config/auspice_config_{Segment}.json",
     output:
-        auspice_json="auspice/CCHF_{Segment}_treeknit.json",
+        auspice_json="auspice/andv_{Segment}.json",
     params:
-        id_column="group_id",
+        id_column="unique_id",
     shell:
         """
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-columns accession \
-            --node-data {input.branch_lengths} {input.traits} {input.nt_muts} {input.aa_muts} {input.clades} \
+            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} {input.clades} \
             --colors {input.colors} \
             --lat-longs {input.lat_longs} \
             --auspice-config {input.auspice_config} \
