@@ -1,6 +1,8 @@
-# Nextstrain build for Crimean-Congo hemorrhagic fever virus
+# Nextstrain build for ANDV
 
 ## About 
+
+Based on CCHF build - will update the readme more later.
 
 This repository provides scripts for the phylogenetic analysis of the CCHF virus. CCHF is a multi-segmented RNA-virus with three segments (L, M and S). Phylogenetic analysis is performed on each segment using the references; [NC_005301.3](https://www.ncbi.nlm.nih.gov/nuccore/NC_005301.3) for segment L, [NC_005300.2](https://www.ncbi.nlm.nih.gov/nuccore/NC_005300.2) for segment M and [NC_005302.1](https://www.ncbi.nlm.nih.gov/nuccore/NC_005302.1) for segment S. This repository creates nextstrain builds with or without linking the segments.
 
