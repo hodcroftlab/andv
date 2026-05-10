@@ -18,7 +18,7 @@
       "url": "https://pathoplexus.org/"
     }
   ],
-  "build_url": "https://github.com/neherlab/CCHFV",
+  "build_url": "https://github.com/hodcroftlab/andv",
   "colorings": [
     {
       "key": "gt",
@@ -26,13 +26,18 @@
       "type": "categorical"
     },
     {
-      "key": "num_date",
+      "key": "date",
       "title": "Date",
-      "type": "continuous"
+      "type": "temporal"
     },
     {
       "key": "author",
       "title": "Author",
+      "type": "categorical"
+    },
+    {
+      "key": "dataUseTerms",
+      "title": "Data use terms",
       "type": "categorical"
     },
     {
@@ -64,7 +69,8 @@
     "accession"
   ],
   "display_defaults": {
-    "map_triplicate": true
+    "map_triplicate": true,
+    "tip_label": "unique_id"
   },
   "filters": [
     "country",
