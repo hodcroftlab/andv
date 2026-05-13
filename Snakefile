@@ -28,7 +28,8 @@ else:
 
 
 # to clean input and force re-run, run as: 
-# snakemake --cores 4 force_refresh && snakemake --cores 4 refresh_data&& snakemake --cores 4 all
+# snakemake --cores 4 force_refresh && snakemake --cores 4 refresh_data && snakemake --cores 4 all
+
 rule force_refresh:
     input:
         sequences=expand("data/sequences_pathoplexus_{Segment}.fasta", Segment=SEGMENTS),
@@ -75,60 +76,6 @@ rule fetch_pathoplexus_metadata:
             -o {output.metadata}
         """
 
-
-#rule fetch_ncbi_dataset_package:
-#    output:
-#        dataset_package="data/ncbi_dataset.zip",
-#    shell:
-#        """
-#        datasets download virus genome taxon {TAXON_ID} \
-#            --no-progressbar \
-#            --filename {output.dataset_package} \
-#        """
-#
-#
-#rule extract_ncbi_dataset_sequences:
-#    input:
-#        dataset_package="data/ncbi_dataset.zip",
-#    output:
-#        ncbi_dataset_sequences="data/sequences.fasta",
-#    params:
-#        unzip=unzip,
-#    shell:
-#        """
-#        {params.unzip} -o {input.dataset_package} -d data 
-#        seqkit seq -w0 data/ncbi_dataset/data/genomic.fna \
-#        > {output.ncbi_dataset_sequences}
-#        """
-#
-#
-#rule format_ncbi_dataset_report:
-#    input:
-#        dataset_package="data/ncbi_dataset.zip",
-#    output:
-#        ncbi_dataset_tsv="data/metadata_post_extract.tsv",
-#    shell:
-#        """
-#        dataformat tsv virus-genome \
-#            --package {input.dataset_package} \
-#            > {output.ncbi_dataset_tsv} 
-#        """
-
-#checkpoint filter_rawdata:
-#    input:
-#        sequences="data/sequences.fasta",
-#        ncbi_dataset_tsv="data/metadata_post_extract.tsv",
-#    output:
-#        sequences=expand("data/sequences_insdc_{Segment}.fasta", Segment=SEGMENTS),
-#        metadata=expand("data/metadata_insdc_{Segment}.tsv", Segment=SEGMENTS),
-#    shell:
-#        """
-#        python scripts/filter_rawdata.py \
-#            --sequences {input.sequences} \
-#            --metadata {input.ncbi_dataset_tsv} \
-#            --exclude-list "config/rawdataexclude.txt" \
-#            --no-group true --allow-missing-date
-#        """
 
 rule add_external_sequences:
     input:
