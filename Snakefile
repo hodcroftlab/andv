@@ -7,10 +7,6 @@ external_fastas = {
     "L": "", #"data/external_fasta_L.fasta",
 }
 
-rule all:
-    input:
-        expand("auspice/andv_{Segment}.json", Segment=SEGMENTS),
-
 
 dropped_strains = ("config/dropped_strains.txt",)
 reference = ("config/outgroup_{Segment}.gb",)
@@ -30,6 +26,28 @@ if os.uname().sysname == "Darwin":
 else:
     unzip = "unzip"
 
+
+# to clean input and force re-run, run as: 
+# snakemake --cores 4 force_refresh && snakemake --cores 4 refresh_data&& snakemake --cores 4 all
+rule force_refresh:
+    input:
+        sequences=expand("data/sequences_pathoplexus_{Segment}.fasta", Segment=SEGMENTS),
+        metadata=expand("data/metadata_pathoplexus_{Segment}.tsv", Segment=SEGMENTS),
+    shell:
+        """
+        rm -f {input.sequences} \
+              {input.metadata}
+        """
+
+rule refresh_data:
+    input:
+        sequences=expand("data/sequences_pathoplexus_{Segment}.fasta", Segment=SEGMENTS),
+        metadata=expand("data/metadata_pathoplexus_{Segment}.tsv", Segment=SEGMENTS),
+
+rule all:
+    input:
+        expand("auspice/andv_{Segment}.json", Segment=SEGMENTS),
+
 rule fetch_pathoplexus_sequences:
     output:
         sequences="data/sequences_pathoplexus_{Segment}.fasta",
@@ -39,7 +57,7 @@ rule fetch_pathoplexus_sequences:
     shell:
         """
         curl -fsSL \
-            '{params.lapis_url}/sample/unalignedNucleotideSequences/{wildcards.Segment}?versionStatus=LATEST_VERSION&downloadAsFile=true' \
+            '{params.lapis_url}/sample/unalignedNucleotideSequences/{wildcards.Segment}?versionStatus=LATEST_VERSION&isRevocation=false&downloadAsFile=true' \
             -o {output.sequences}
         """
 
@@ -53,7 +71,7 @@ rule fetch_pathoplexus_metadata:
     shell:
         """
         curl -fsSL \
-            '{params.lapis_url}/sample/details?versionStatus=LATEST_VERSION&dataFormat=TSV&downloadAsFile=true&length_{wildcards.Segment}From=1' \
+            '{params.lapis_url}/sample/details?versionStatus=LATEST_VERSION&isRevocation=false&dataFormat=TSV&downloadAsFile=true&length_{wildcards.Segment}From=1' \
             -o {output.metadata}
         """
 

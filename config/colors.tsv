@@ -1,12 +1,15 @@
-country	peru	#3E58CF
-country	chile	#4B8EC1
-country	argentina	#65AE96
-country	bolivia	#8CBB69
-country	paraguay	#B8BC4A
-country	uruguay	#DCAB3C
-country	brazil	#E67932
-country	Netherlands	#E1512A
+country	peru	#4042C7
+country	chile	#4274CE
+country	argentina	#5199B7
+country	bolivia	#69B091
+country	paraguay	#88BB6C
+country	uruguay	#ADBD51
+country	brazil	#CEB541
+country	south africa	#E39B39
+country	netherlands	#E56C2F
 country	switzerland	#DC2F24
+
 region	south america	#3F50CC
 region	europe	#E1512A
+region	arica	#8CBB69
 clade_membership	undefined	#DC2F24
