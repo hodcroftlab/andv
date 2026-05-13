@@ -190,38 +190,6 @@ rule filter:
         #            --query {params.query:q}
 
 
-#rule extract_selected_groups:
-#    message:
-#        """
-#        Select the group id of filtered sequences
-#        """
-#    input:
-#        metadata=rules.filter.output.filtered_metadata,
-#    output:
-#        filtered_groups_list="results/filtered_groups_{Segment}.tsv",
-#        filtered_groups="results/filtered_groups_{Segment}.txt",
-#    shell:
-#        """
-#        tsv-select -H -f unique_id {input.metadata} > {output.filtered_groups_list}
-#        cp {output.filtered_groups_list} {output.filtered_groups}
-#        """
-#
-#
-#rule select_sequences:
-#    message:
-#        """
-#        Select all sequences according to group-id
-#        """
-#    input:
-#        groups=rules.extract_selected_groups.output.filtered_groups,
-#        sequences="data/sequences_{Segment}.fasta",
-#    output:
-#        selected_sequences="results/selected_sequences_{Segment}.fasta",
-#    shell:
-#        """
-#        seqkit grep -f {input.groups} < {input.sequences} > {output.selected_sequences}
-#        """
-
 
 rule align:
     message:
