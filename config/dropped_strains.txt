@@ -1,6 +1,56 @@
-PP_006VVFC.1 #S
-PP_006VVGA.1 #S
-PP_006VVEE.1 #M
-PP_006VVDG.1 #M
-PP_006VVCJ.1 #L
-PP_006VT18.1 #L
+PP_006VVFC.1 #S - too divergent
+PP_006VVGA.1 #S - too divergent
+PP_006VVEE.1 #M - too divergent
+PP_006VVDG.1 #M - too divergent
+PP_006VVCJ.1 #L - too divergent
+PP_006VT18.1 #L - too divergent
+
+PP_006VY05.1 #M - passages of same strain
+PP_006VYAK.1 #M - passages of same strain
+PP_006VY7R.1 #M - passages of same strain
+PP_006VY6T.1 #M - passages of same strain
+PP_006VXPT.1 #M - passages of same strain
+PP_006VZ04.1 #M - passages of same strain
+PP_006VYEB.1 #M - passages of same strain
+PP_006VXTK.1 #M - passages of same strain
+PP_006VY8P.1 #M - passages of same strain
+PP_006VXZ7.1 #M - passages of same strain
+PP_006VYG7.1 #M - passages of same strain
+PP_006VYDD.1 #M - passages of same strain
+PP_006VYCF.1 #M - passages of same strain
+PP_006VYK0.1 #M - passages of same strain
+PP_006VYTJ.1 #M - passages of same strain
+PP_006VYXA.1 #M - passages of same strain
+PP_006VYY8.1 #M - passages of same strain
+PP_006VYPS.1 #M - passages of same strain
+PP_006VYJ2.1 #M - passages of same strain
+PP_006VXSM.1 #M - passages of same strain
+PP_006VXVF.1 #M - passages of same strain
+PP_006VY21.1 #M - passages of same strain
+PP_006VYNU.1 #M - passages of same strain
+PP_006VZ12.1 #M - passages of same strain
+PP_006VYZ6.1 #M - passages of same strain
+PP_006VYUG.1 #M - passages of same strain
+PP_006VYWC.1 #M - passages of same strain
+PP_006VYF9.1 #M - passages of same strain
+PP_006VYH4.1 #M - passages of same strain
+PP_006VYLY.1 #M - passages of same strain
+PP_006VYSL.1 #M - passages of same strain
+PP_006VYMW.1 #M - passages of same strain
+PP_006VYVE.1 #M - passages of same strain
+PP_006VYRN.1 #M - passages of same strain
+PP_006VYQQ.1 #M - passages of same strain
+PP_006VXWD.1 #M - passages of same strain
+PP_006VXXB.1 #M - passages of same strain
+PP_006VXUH.1 #M - passages of same strain
+PP_006VXRP.1 #M - passages of same strain
+PP_006VY5V.1 #M - passages of same strain
+PP_006VY9M.1 #M - passages of same strain
+PP_006VXNV.1 #M - passages of same strain
+PP_006VY3Z.1 #M - passages of same strain
+PP_006VXY9.1 #M - passages of same strain
+PP_006VXQR.1 #M - passages of same strain
+PP_006VXMX.1 #M - passages of same strain
+PP_006VY4X.1 #M - passages of same strain
+PP_006VYBH.1 #M - passages of same strain
+PP_006VY13.1 #M - passages of same strain
