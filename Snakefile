@@ -7,6 +7,12 @@ external_fastas = {
     "L": "", #"data/external_fasta_L.fasta",
 }
 
+# Paths to clade files per segment
+clades = {
+    "S": "config/clades_S.tsv",
+    "M": "config/clades_M.tsv",
+    "L": "config/clades_L.tsv",
+}
 
 dropped_strains = ("config/dropped_strains.txt",)
 reference = ("config/outgroup_{Segment}.gb",)
@@ -131,6 +137,36 @@ rule format_metadata:
         """
 
 
+rule download_external_metadata:
+    message:
+        "Downloading externally curated metadata from ARTIC ANDV repository"
+    output:
+        metadata="data/artic_andv_metadata.csv",
+    shell:
+        """
+        curl -L https://raw.githubusercontent.com/artic-network/artic-andv/main/andv-metadata.csv \
+            -o {output.metadata}
+        """
+
+# Add curated metadata to the main metadata
+rule add_curated_metadata:
+    message:
+        "Adding curated metadata from ARTIC ANDV repository to main metadata"
+    input:
+        main_metadata="data/metadata_formatted_{Segment}.tsv",
+        curated_metadata="data/artic_andv_metadata.csv",
+    output:
+        metadata="data/metadata_curated_{Segment}.tsv",
+    shell:
+        """
+        python scripts/add_curated_metadata.py \
+            --main-metadata {input.main_metadata} \
+            --curated-metadata {input.curated_metadata} \
+            --output {output.metadata} \
+            --segment {wildcards.Segment}
+        """
+
+
 rule index_sequences:
     message:
         """
@@ -159,7 +195,7 @@ rule filter:
     input:
         sequences="data/sequences_{Segment}.fasta",
         sequence_index="results/sequence_index_{Segment}.tsv",
-        metadata="data/metadata_formatted_{Segment}.tsv",
+        metadata="data/metadata_curated_{Segment}.tsv",
         exclude=dropped_strains,
     output:
         filtered_metadata="results/initial_filtered_metadata_{Segment}.tsv",
@@ -245,7 +281,7 @@ rule refine:
     input:
         tree=rules.tree.output.tree,
         alignment=rules.align.output,
-        metadata="data/metadata_formatted_{Segment}.tsv",
+        metadata="data/metadata_curated_{Segment}.tsv",
     output:
         tree="results/tree_{Segment}.nwk",
         node_data="results/branch_lengths_{Segment}.json",
@@ -311,14 +347,17 @@ rule translate:
 rule clades:
     input:
         tree=rules.refine.output.tree,
+        nuc_muts = rules.ancestral.output.node_data,
+        aa_muts = rules.translate.output.node_data,
+        clades = lambda wildcards: clades[wildcards.Segment],
     output:
         node_data="results/clades_{Segment}.json",
     shell:
         """
-        python scripts/get_clades.py \
-            --tree {input.tree} \
-            --node-data {output.node_data} \
-            --clade-name {wildcards.Segment}
+        augur clades --tree {input.tree} \
+            --mutations {input.nuc_muts} {input.aa_muts} \
+            --clades {input.clades} \
+            --output-node-data {output.node_data}
         """
 
 
@@ -327,7 +366,7 @@ rule traits:
         "Inferring ancestral traits for {params.columns!s}"
     input:
         tree="results/tree_{Segment}.nwk",
-        metadata="data/metadata_formatted_{Segment}.tsv",
+        metadata="data/metadata_curated_{Segment}.tsv",
     output:
         node_data="results/traits_{Segment}.json",
     params:
@@ -350,7 +389,7 @@ rule export:
         "Exporting data files for for auspice"
     input:
         tree="results/tree_{Segment}.nwk",
-        metadata="data/metadata_formatted_{Segment}.tsv",
+        metadata="data/metadata_curated_{Segment}.tsv",
         clades=rules.clades.output.node_data,
         branch_lengths=rules.refine.output.node_data,
         #traits=rules.traits.output.node_data,
@@ -364,7 +403,7 @@ rule export:
         auspice_json="auspice/andv_{Segment}.json",
     params:
         id_column="accessionVersion",
-        metadata_columns="unique_id dataUseTerms restrictedUntil PPX_accession INSDC_accession" #dataUseTerms__url
+        metadata_columns="unique_id dataUseTerms restrictedUntil PPX_accession INSDC_accession hostNameCommon hostNameScientific" #dataUseTerms__url
     shell:
         """
         augur export v2 \

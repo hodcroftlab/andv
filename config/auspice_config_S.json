@@ -41,6 +41,11 @@
       "type": "categorical"
     },
     {
+      "key": "province",
+      "title": "Province/City",
+      "type": "categorical"
+    },
+    {
       "key": "country",
       "title": "Country",
       "type": "categorical"
@@ -51,6 +56,16 @@
       "type": "categorical"
     },
     {
+      "key": "hostNameCommon",
+      "title": "Common Host Name",
+      "type": "categorical"
+    },
+    {
+      "key": "hostNameScientific",
+      "title": "Scientific Host Name",
+      "type": "categorical"
+    },
+    {
       "key": "clade_membership",
       "title": "Clade",
       "type": "categorical"
@@ -58,6 +73,7 @@
   ],
   "geo_resolutions": [
     "country",
+    "province",
     "region"
   ],
   "panels": [
@@ -75,6 +91,9 @@
   "filters": [
     "country",
     "region",
-    "author"
+    "province",
+    "author",
+    "hostNameCommon",
+    "hostNameScientific"
   ]
 }
