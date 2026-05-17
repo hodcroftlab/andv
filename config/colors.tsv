@@ -1,15 +1,16 @@
-country	peru	#4042C7
-country	chile	#4274CE
-country	argentina	#5199B7
-country	bolivia	#69B091
-country	paraguay	#88BB6C
-country	uruguay	#ADBD51
-country	brazil	#CEB541
-country	south africa	#E39B39
-country	netherlands	#E56C2F
+country	peru	#4137C2
+country	chile	#4066CF
+country	argentina	#4B8DC2
+country	bolivia	#5DA8A3
+country	paraguay	#77B67F
+country	uruguay	#96BD60
+country	brazil	#B8BC4B
+country	south africa	#D4B13F
+country	france	#E59638
+country	netherlands	#E4672F
 country	switzerland	#DC2F24
 
 region	south america	#3F50CC
 region	europe	#E1512A
 region	arica	#8CBB69
-
+ 

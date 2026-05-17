@@ -418,9 +418,10 @@ rule export:
             --metadata-id-columns {params.id_column} \
             --include-root-sequence-inline \
             --description "{input.description}" \
-            --metadata-id-columns "unique_id"
+            --metadata-id-columns "unique_id" \
+            --skip-validation
         """
-
+        # --skip-validation was added so that we could modify new sharing options introduced by James to disable direct meta download
 
 rule clean:
     message:

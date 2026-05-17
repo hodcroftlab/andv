@@ -95,5 +95,13 @@
     "author",
     "hostNameCommon",
     "hostNameScientific"
-  ]
+  ],
+  "sharing": {
+    "dataset_json": true,
+    "metadata_tsv": false,
+    "authors": true,
+    "trees": true,
+    "entropy": true,
+    "screenshot": true
+  }
 }
