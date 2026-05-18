@@ -106,18 +106,15 @@ rule genome_refine:
         node_data="results/genome/branch_lengths.json",
     params:
         id_column="accessionVersion",
-        # root=BASAL_PAIR,
-        root = "best",
+        root = "mid_point",
     shell:
         """
         augur refine \
             --metadata-id-columns {params.id_column} \
-            --timetree \
             --metadata {input.metadata} \
             --alignment {input.alignment} \
             --tree {input.tree} \
             --output-tree {output.tree} \
-            --clock-filter-iqd 0 \
             --output-node-data {output.node_data} \
             --root {params.root} \
         """

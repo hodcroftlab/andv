@@ -30,6 +30,11 @@
       "type": "categorical"
     },
     {
+      "key": "date",
+      "title": "Date",
+      "type": "temporal"
+    },
+    {
       "key": "author",
       "title": "Author",
       "type": "categorical"
