@@ -1,0 +1,6 @@
+ANDV	0	50	S segment (antigenome) 5' 50bp
+ANDV	1821	1871	S segment (antigenome) 3' 50bp
+ANDV	1871	1921	M segment (antigenome) 5' 50bp
+ANDV	5492	5542	M segment (antigenome) 3' 50bp
+ANDV	5542	5592	L segment (antigenome) 5' 50bp
+ANDV	12054	12104	L segment (antigenome) 3' 50bp

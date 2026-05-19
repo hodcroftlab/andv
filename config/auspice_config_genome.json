@@ -1,0 +1,92 @@
+{
+  "title": "Andes Hantavirus Genome (selected strains)",
+  "maintainers": [
+    {
+      "name": "Emma Hodcroft",
+      "url": "https://eve-lab.org/people/emma-hodcroft/"
+    },
+    {
+      "name": "Nextstrain",
+      "url": "https://nextstrain.org/"
+    },
+    {
+      "name": "EVE Group: Swiss TPH, University of Basel",
+      "url": "https://eve-lab.org/"
+    },
+    {
+      "name": "Neherlab: Biozentrum, University of Basel",
+      "url": "https://neherlab.org/"
+    },
+    {
+      "name": "Pathoplexus Team",
+      "url": "https://pathoplexus.org/"
+    }
+  ],
+  "build_url": "https://github.com/hodcroftlab/andv",
+  "colorings": [
+    {
+      "key": "gt",
+      "title": "Genotype",
+      "type": "categorical"
+    },
+    {
+      "key": "date",
+      "title": "Date",
+      "type": "temporal"
+    },
+    {
+      "key": "author",
+      "title": "Author",
+      "type": "categorical"
+    },
+    {
+      "key": "dataUseTerms",
+      "title": "Data use terms",
+      "type": "categorical"
+    },
+    {
+      "key": "province",
+      "title": "Province/City",
+      "type": "categorical"
+    },
+    {
+      "key": "country",
+      "title": "Country",
+      "type": "categorical"
+    },
+    {
+      "key": "hostNameCommon",
+      "title": "Common Host Name",
+      "type": "categorical"
+    },
+    {
+      "key": "hostNameScientific",
+      "title": "Scientific Host Name",
+      "type": "categorical"
+    },
+    {
+      "key": "clade_membership",
+      "title": "Clade",
+      "type": "categorical"
+    }
+  ],
+  "geo_resolutions": ["country", "province"],
+  "panels": ["tree", "map", "entropy"],
+  "metadata_columns": ["accession"],
+  "display_defaults": {
+    "map_triplicate": true,
+    "tip_label": "unique_id"
+  },
+  "filters": [
+    "country",
+    "province",
+    "author"
+  ],
+  "sharing": {
+    "dataset_json": true,
+    "metadata_tsv": false,
+    "authors": true,
+    "trees": true,
+    "entropy": true
+  }
+}
